@@ -175,6 +175,15 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
 
     @Override
     public void updateSquare(int x, int y, int input) {
+        SudokuTextField tile = textFieldCoordinates.get(new Coordinates(x,y));
+
+        String value = Integer.toString(
+                input
+        );
+
+        if (value.equals("0")) value = " ";
+
+        tile.textProperty().setValue(value);
 
     }
 
