@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class UserInterfaceImpl implements IUserInterfaceContract.View,
@@ -189,7 +190,13 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
 
     @Override
     public void updateBoard(SudokuGame game) {
+        for(int xIndex = 0; xIndex < 9; xIndex++){
+            for (int yIndex = 0; yIndex < 9; yIndex++){
+                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex))
+                        String value = Integer.toString()
+            }
 
+        }
     }
 
     @Override
