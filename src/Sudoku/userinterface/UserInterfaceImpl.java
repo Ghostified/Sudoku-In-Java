@@ -195,6 +195,10 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
                 TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex))
                         String value = Integer.toString()
             }
+//            for (int yIndex = 0; yIndex < 9; yIndex++){
+//                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex))
+//                String value = Integer.toString()
+//            }
 
         }
     }
