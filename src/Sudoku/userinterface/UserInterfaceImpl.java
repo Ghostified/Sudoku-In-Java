@@ -1,10 +1,16 @@
 package Sudoku.userinterface;
 
+import Sudoku.constants.GameState;
 import Sudoku.problemdomain.Coordinates;
+import Sudoku.problemdomain.SudokuGame;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
@@ -13,7 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.*;
+
 import java.util.HashMap;
 
 public class UserInterfaceImpl implements IUserInterfaceContract.View,
@@ -192,34 +198,65 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     public void updateBoard(SudokuGame game) {
         for(int xIndex = 0; xIndex < 9; xIndex++){
             for (int yIndex = 0; yIndex < 9; yIndex++){
-                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex))
-                        String value = Integer.toString()
-            }
-            for (int yIndex = 0; yIndex < 9; yIndex++){
-                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex))
-                String value = Integer.toString()
-            }
-            for (int yIndex = 0; yIndex < 9; yIndex++){
-                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex))
-                String value = Integer.toString()
-            }
+                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex,yIndex));
 
+
+                        String value = Integer.toString(
+                                game.getCopyOfGridState()[xIndex][yIndex]
+                        );
+                if(value.equals("0")) value ="";
+                tile.setText(
+                        value
+                );
+                if(game.getGameState() == GameState.NEW){
+                    if (value.equals("")){
+                        tile.setStyle("-fx-opacity: 0.8;");
+                        tile.setDisable(true);
+                    }
+                }
+            }
         }
     }
 
     @Override
     public void showDialog(String message) {
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
+        dialog.showAndWait();
+
+        if (dialog.getResult() == ButtonType.OK) listener.onDialogClick();
 
     }
 
     @Override
     public void showError(String message) {
-
+        Alert dialog = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        dialog.showAndWait();
     }
 
     @Override
-    public void handle(KeyEvent keyEvent) {
+    public void handle(KeyEvent event) {
+        if(event.getEventType() == KeyEvent.KEY_PRESSED){
+            if(
+                    event.getText().matches("[0-9]")
+            ) {
+                int value = Integer.parseInt(event.getText());
+                handleInput(value, event.getSource());
+            } else if (event.getCode() == KeyCode.BACK_SPACE) {
+                handleInput(0, event.getSource());
+            }else {
+                ((TextField) event.getSource()).setText("");
+            }
+        }
+        event.consume();
 
+    }
+
+    private void handleInput(int value, Object source) {
+        listener.onSudokuInput(
+                ((SudokuTextField) source).getX(),
+                ((SudokuTextField) source).getY(),
+                value
+        );
     }
 
 
