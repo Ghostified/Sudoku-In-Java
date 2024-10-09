@@ -27,10 +27,11 @@ public class SudokuSolver {
                         index --;
                     }
                     input ++;
+
                 } else {
                     index ++;
 
-                    if (index =39 ) return true;
+                    if (index == 39 ) return true;
 
                     input = 10;
                 }
